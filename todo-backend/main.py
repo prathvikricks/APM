@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from celery_app import add_note_task  # Import Celery task for background processing
 
 # FastAPI instance
 app = FastAPI()
@@ -40,8 +41,9 @@ async def get_notes():
 
 @app.post("/api/todoapp/AddNotes")
 async def add_note(note: Todo):
-    result = collection.insert_one(note.dict())
-    return {"message": "Note added successfully", "insertedId": str(result.inserted_id)}
+    # Trigger the Celery task asynchronously
+    task = add_note_task.apply_async(args=[note.description])  # Call Celery task
+    return {"message": "Note processing started", "task_id": task.id}
 
 @app.delete("/api/todoapp/DeleteNotes/{id}")
 async def delete_note(id: str):

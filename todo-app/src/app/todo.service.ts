@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';  // Import 'from' to convert Promise to Observable
-// Removed HttpClient import, as it's globally provided
+import { Observable, from } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root', // No need for HttpClient here
+  providedIn: 'root',
 })
 export class TodoService {
   private apiUrl = 'http://localhost:8000/api/todoapp';
 
-  // No HttpClient injected here anymore
   constructor() {}
 
   // Method to get the list of notes
