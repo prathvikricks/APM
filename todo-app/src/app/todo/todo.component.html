@@ -1,0 +1,13 @@
+<div>
+    <h1>TODO Application</h1>
+    <input [(ngModel)]="newNote" placeholder="Enter a new note" />
+    <button (click)="addNote()">Add</button>
+  
+    <ul>
+      <li *ngFor="let note of notes">
+        {{ note.description }}
+        <button (click)="deleteNote(note._id)">Delete</button>
+      </li>
+    </ul>
+  </div>
+  
